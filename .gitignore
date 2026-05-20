@@ -1,0 +1,9 @@
+hydro_storage.db
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.env
+.streamlit/secrets.toml
+# Ignore uploaded storage contents (uncomment if you don't want to commit uploads)
+# storage/
