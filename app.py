@@ -454,6 +454,11 @@ def show_projects():
 # =========================================
 def preview_file(path, filename):
 
+    # If the file is not present on the server, show a friendly warning
+    if not path or not os.path.exists(path):
+        st.warning("File not available on server for preview")
+        return
+
     ext = os.path.splitext(filename)[1].lower()
 
     if ext == ".csv":
@@ -712,14 +717,18 @@ def show_explorer():
 
     st.write("### Download")
 
-    with open(resource["file_path"], "rb") as f:
+    file_path = resource.get("file_path")
 
-        st.download_button(
-            label="Download File",
-            data=f.read(),
-            file_name=resource["file_name"],
-            mime=mimetypes.guess_type(resource["file_name"])[0]
-        )
+    if file_path and os.path.exists(file_path):
+        with open(file_path, "rb") as f:
+            st.download_button(
+                label="Download File",
+                data=f.read(),
+                file_name=resource["file_name"],
+                mime=mimetypes.guess_type(resource["file_name"])[0]
+            )
+    else:
+        st.warning("File not found on server. If this resource was uploaded locally it won't be available on Streamlit Cloud.")
 
 
 # =========================================
